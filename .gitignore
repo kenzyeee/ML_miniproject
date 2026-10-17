@@ -1,0 +1,17 @@
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Local configuration and generated artifacts
+.env
+.DS_Store
+Thumbs.db
+
+# Dataset files: add only if permitted by the data source and course rules
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep

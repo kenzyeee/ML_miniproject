@@ -12,6 +12,7 @@ Classify fair/poor self-rated health among adults who report a prior cancer diag
 
 The assigned paper studies patient-reported health decline for cancer patients on chemotherapy. NHIS is cross-sectional and does not contain a chemotherapy variable or repeated health measure. This target is a proxy and requires TA approval before modeling. The report must not present it as predicting chemotherapy outcomes or decline.
 
-## Next step
+## Status after Part 1
 
-Confirm the proxy target with the TA. Then inspect the relevant codebook values, missingness, and label balance in the cancer-history subset before choosing features or a model.
+The CDC codebook values were checked, the cancer-history cohort and binary proxy outcome were prepared, and an exploratory report is available at [part-1-data-exploration.md](part-1-data-exploration.md). Confirm the proxy target with the TA before modeling.
+

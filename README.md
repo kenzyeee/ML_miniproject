@@ -1,52 +1,50 @@
 # Machine Learning Mini-Project
 
-> Initial project setup. The public dataset has been downloaded locally; the proposed target remains a proxy for the assigned paper and needs to be stated clearly in the final report.
-
 ## Project details
 
 - Course: UE24CS352A — Machine Learning
-- Team members: Aditya Raj (PES2UG24CS033) and Aditya Kumar (PES2UG24CS032), Batch 30
+- Team: Aditya Raj (PES2UG24CS033) and Aditya Kumar (PES2UG24CS032), Batch 30
 - Assigned problem serial number: **8**
-- Reference problem: *Predicting a Decline in Patient Reported Outcomes for Cancer Patients on Chemotherapy* ([CS229 report](https://cs229.stanford.edu/proj2020spr/report/Ostberg_Peterson.pdf))
-- Public dataset: **2023 CDC National Health Interview Survey (NHIS), Sample Adult**; locally downloaded CSV, 29,522 records
-- Proposed proxy target: classify fair/poor self-rated health among adults reporting a cancer diagnosis (`PHSTAT_A` in the fair/poor categories, within `CANEV_A` cancer-history respondents)
-- Evaluation metric: **TBD**
+- Reference paper: [Predicting a Decline in Patient Reported Outcomes for Cancer Patients on Chemotherapy](https://cs229.stanford.edu/proj2020spr/report/Ostberg_Peterson.pdf)
+- Public dataset: 2023 CDC National Health Interview Survey (NHIS), Sample Adult
+- Proposed proxy task: classify fair/poor self-rated general health among adults who report ever having cancer
 
-## Current status
+## Scope caveat
 
-The reference paper's 1,252-patient STARR cohort is not distributed with the report. ICPSR 39628 was also checked, but its package contained reports and documentation rather than patient-level data. The downloaded NHIS public-use data is accessible without a guestbook, and includes cancer history (`CANEV_A`) and self-rated health (`PHSTAT_A`). It is cross-sectional: it has no chemotherapy treatment variable and cannot measure within-person decline. The proxy target above changes the original problem and should be confirmed with the TA before modeling.
+The reference paper predicts poor or declining PROMIS Global Physical Health (GPH) during chemotherapy. NHIS is cross-sectional and contains neither chemotherapy exposure nor before/after health scores. It cannot reproduce that task. The current proxy target is a substantial change in scope and still needs the TA's approval. Do not describe this as chemotherapy outcome or decline prediction.
 
-## Planned structure
+## Part 1 status
 
-```text
-data/       Dataset notes; keep data files out of version control unless sharing is permitted.
-notebooks/  Exploration and experiments.
-src/        Reusable project code.
-reports/    Write-up, figures, and presentation material.
+Part 1 established the proxy target, checked the CDC codebook, explored the outcome distribution, and created a reusable cohort-preparation script. The source file has 29,522 adults; 3,762 reported a prior cancer diagnosis; 3,760 of those have a valid general-health response. In this analytic cohort, 1,015 (27.0%) report fair/poor health and 2,745 (73.0%) report good/very good/excellent health. These are unweighted sample counts.
+
+See [`reports/part-1-data-exploration.md`](reports/part-1-data-exploration.md) for the findings, variable notes, source-paper methodology, and teammate handoff. See [`reports/step-1-dataset-and-scope.md`](reports/step-1-dataset-and-scope.md) for the initial setup note.
+
+## Data and setup
+
+The original CDC download and extracted CSV belong in `data/raw/`; raw and processed data are excluded from Git. Download the Sample Adult CSV ZIP from the [CDC 2023 NHIS documentation page](https://www.cdc.gov/nchs/nhis/documentation/2023-nhis.html) and extract it so `data/raw/adult23csv/adult23.csv` exists. The CDC `readme.txt` is also included in the archive.
+
+From the project root, install the dependency and prepare the modeling cohort:
+
+```powershell
+python -m pip install -r requirements.txt
+python src/prepare_data.py
 ```
 
-## Setup and run
+The script creates `data/processed/cancer_health_modeling.csv`. It contains selected candidate predictors, `poor_health` (1=fair/poor, 0=good or better), and survey metadata. Keep `survey_weight`, `survey_stratum`, and `survey_psu` out of the predictive feature matrix unless implementing survey-aware modeling. The original outcome column and cancer cohort flag are excluded from the prepared file to prevent direct leakage.
 
-**TBD:** Choose the runtime and dependencies before analysis. The raw download and extracted files are in `data/raw/adult23csv/` and are excluded from Git.
+## Handoff: Part 2
 
-## Work sequence
-
-1. Record the team's assigned serial number and members (done).
-2. Confirm with the TA that the proposed NHIS proxy target is acceptable.
-3. Inspect variables, missingness, and class balance in the cancer-history subset.
-4. Agree on the split, preprocessing, and evaluation metric before model comparison.
-5. Build and evaluate a baseline, then compare a small set of suitable models.
-6. Re-run from the README and complete the PDF write-up, slides, and demo.
+1. Confirm the proxy target with the TA before finalizing the project framing.
+2. Use the prepared cohort; perform stratified train/test splitting or stratified cross-validation.
+3. Fit imputation, encoding, scaling, and tuning within training folds only.
+4. Establish a majority-class and regularized logistic-regression baseline, then compare a small number of models.
+5. Report class-aware metrics (for example, balanced accuracy, precision/recall or F1, ROC-AUC, and PR-AUC), not accuracy alone.
+6. Keep test data out of model selection, and describe findings as sample classification results rather than clinical advice or chemotherapy effects.
 
 ## Assignment deliverables
 
-- Private GitHub repository shared with faculty and assigned TAs.
-- PDF project summary covering the problem, dataset, approach, implementation, and conclusions. The assignment heading says “one-page,” while its instructions request a “two-page” summary; confirm the required length.
-- Presentation and live code demonstration at the scheduled review.
+- Private GitHub repository shared with faculty and assigned TAs, including setup/run instructions.
+- PDF summary describing the problem, dataset, approach, implementation, and conclusions. The supplied assignment labels it “One-Page Write-up” but describes a two-page summary; confirm the expected length.
+- Presentation and live code demonstration at review.
 
-## Open questions
-
-- TA approval for the revised, cross-sectional proxy target (the user has permission to use any public dataset, but this dataset cannot support chemotherapy-specific decline).
-- What are the data-use and sharing constraints for the final report/repository? Raw data is currently kept out of Git.
-- What are the updated review and submission dates? The dates listed in the supplied assignment have passed.
-- Should the PDF summary be one page or two?
+The dates supplied in the assignment (October 5-10, 2026) have passed; check with course staff for updated submission and review arrangements.

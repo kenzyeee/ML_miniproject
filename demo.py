@@ -1,8 +1,9 @@
-"""Simple demonstration script for the live presentation.
+"""Clinical profile risk stratification and model inference verification.
 
-Loads the trained model (best_model.joblib) and evaluates two patient cases:
-- Patient A (High Risk): Multiple comorbidities (diabetes, heart disease, depression).
-- Patient B (Low Risk): No chronic conditions, college degree.
+Loads the trained scikit-learn pipeline (best_model.joblib) and evaluates
+predicted risk probabilities across representative patient clinical scenarios:
+- Profile 1 (High-Risk Multimorbid): Advanced age with cardiometabolic and psychiatric comorbidities.
+- Profile 2 (Low-Risk Reference): Younger age, absence of diagnosed chronic conditions, higher educational attainment.
 """
 from pathlib import Path
 import joblib
@@ -18,19 +19,19 @@ def main() -> None:
 
     model = joblib.load(MODEL_PATH)
 
-    # Define two contrasting clinical cases
+    # Define two representative clinical profiles
     patients = [
         {
-            "Case": "Patient A (High Risk Profile)",
-            "Description": "72yo, prior cancer, with Diabetes, Heart Disease, and Depression",
+            "Case": "Profile 1 (High-Risk Multimorbid)",
+            "Description": "Age 72, prior cancer, with diabetes, coronary heart disease, and depression",
             "Data": {
                 "AGEP_A": 72, "SEX_A": 1, "HISPALLP_A": 2, "EDUCP_A": 3.0, "BMICAT_A": 4.0,
                 "DIBEV_A": 1.0, "HYPEV_A": 1.0, "CHDEV_A": 1.0, "ANXEV_A": 1.0, "DEPEV_A": 1.0, "ASEV_A": 1.0,
             },
         },
         {
-            "Case": "Patient B (Low Risk Profile)",
-            "Description": "48yo, prior cancer, college graduate, no chronic physical or mental conditions",
+            "Case": "Profile 2 (Low-Risk Reference)",
+            "Description": "Age 48, prior cancer, college graduate, no diagnosed chronic physical or mental conditions",
             "Data": {
                 "AGEP_A": 48, "SEX_A": 2, "HISPALLP_A": 2, "EDUCP_A": 7.0, "BMICAT_A": 2.0,
                 "DIBEV_A": 2.0, "HYPEV_A": 2.0, "CHDEV_A": 2.0, "ANXEV_A": 2.0, "DEPEV_A": 2.0, "ASEV_A": 2.0,
@@ -39,7 +40,7 @@ def main() -> None:
     ]
 
     print("=" * 70)
-    print("LIVE DEMONSTRATION: CANCER HEALTH OUTCOME PREDICTION")
+    print("CLINICAL RISK STRATIFICATION INFERENCE VERIFICATION")
     print("=" * 70)
 
     for p in patients:

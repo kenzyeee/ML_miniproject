@@ -20,9 +20,9 @@ Part 2 implements a leakage-safe machine learning pipeline, benchmarking a Dummy
 - `explore_cohort.py` — reproducible Part 1 subgroup and missingness summaries
 - `PART1.md` — exploration, paper-method summary, and Part 2 handoff
 - `train_models.py` — reproducible Part 2 training, evaluation, and plotting script
-- `demo.py` — simple live demonstration script for presentation
+- `demo.py` — clinical profile risk stratification inference script
 - `results_summary.png` — 3-panel visual summary (ROC curve, confusion matrix, odds ratios)
-- `PART2.md` — modeling results, clinical findings, and presentation cheat sheet
+- `PART2.md` — modeling results, benchmark evaluation, and technical discussion
 - `requirements.txt` — Python dependencies
 
 ## Setup and run
@@ -32,7 +32,7 @@ Part 2 implements a leakage-safe machine learning pipeline, benchmarking a Dummy
    pip install -r requirements.txt
    ```
 
-2. Download `adult23.csv` from the [CDC 2023 NHIS page](https://www.cdc.gov/nchs/nhis/documentation/2023-nhis.html) and save to `data/adult23.csv`. Then run Part 1:
+2. Download `adult23.csv` from the [CDC 2023 NHIS documentation page](https://www.cdc.gov/nchs/nhis/documentation/2023-nhis.html) and save to `data/adult23.csv`. Then run Part 1:
    ```bash
    python prepare_data.py
    python explore_cohort.py
@@ -43,11 +43,11 @@ Part 2 implements a leakage-safe machine learning pipeline, benchmarking a Dummy
    python train_models.py
    ```
 
-4. Run the live demo for presentation:
+4. Run clinical profile inference verification:
    ```bash
    python demo.py
    ```
 
 ## Assignment deliverables
 
-Private GitHub repository shared with faculty and assigned TAs; summary report of the problem, data, approach, implementation, and conclusions; and a presentation with live code demonstration.
+Private GitHub repository shared with faculty and assigned TAs; a PDF summary of the problem, data, approach, implementation, and conclusions; and a presentation with live code demonstration. The assignment has passed dates listed as October 5–10, 2026, so check course staff for updated arrangements and expected write-up length.

@@ -52,27 +52,28 @@ From the Logistic Regression odds ratios:
 
 ---
 
-## 5. Presentation Cheat Sheet ("How to Explain in 2 Minutes")
+## 5. Technical Discussion and Methodological Rigor
 
-If asked to explain your work during the viva or presentation, follow this 4-point structure:
+### 5.1 Leakage Prevention and Validation Architecture
+Evaluation was conducted on a sequestered 20% test partition ($N = 752$) stratified by outcome prevalence. All preprocessing transformations—median imputation, standard scaling for continuous features, and one-hot encoding for categorical covariates—are encapsulated within a unified `scikit-learn` `Pipeline`. Transformation parameters are fitted exclusively on the training split ($N = 3,008$), preventing information leakage or target contamination across partitions. Survey design identifiers (`survey_weight`, `survey_stratum`, `survey_psu`) were isolated from predictor matrix $X$ to ensure strictly clinical and demographic feature inputs.
 
-1. **Problem Formulation:**  
-   *"Our team reframed Problem 8 using public CDC NHIS data to predict fair/poor general health among 3,760 cancer survivors based on demographics and chronic conditions."*
-2. **Leakage Prevention:**  
-   *"I used an 80/20 stratified split and encapsulated imputation, scaling, and one-hot encoding inside a scikit-learn Pipeline so no test data leaked into training."*
-3. **Models & Metric Evaluation:**  
-   *"Because of the 73/27 class imbalance, accuracy alone is misleading (the dummy model gets 73% accuracy with 0 recall). Our Logistic Regression model achieves an ROC-AUC of 0.766 and a Balanced Accuracy of 70%, catching 67% of at-risk patients."*
-4. **Findings & Live Demo:**  
-   *"The strongest risk factors were depression, coronary heart disease, and diabetes. In our live demo script (`demo.py`), the model accurately differentiates high-risk multi-morbid patients from low-risk patients."*
+### 5.2 Evaluation Under Class Imbalance (73.0% / 27.0%)
+In skewed clinical outcome distributions, unweighted classification accuracy is uninformative: a trivial baseline predicting the majority class ("Good Health") achieves 73.0% accuracy while failing to identify any at-risk patients (recall = 0.000). Consequently, model comparison was evaluated using threshold-independent discrimination (**ROC-AUC = 0.766**), **Balanced Accuracy (70.0%)**, and sensitivity (**Recall = 67.0%** at the standard decision boundary).
+
+### 5.3 Model Selection and Interpretability
+Regularized Logistic Regression with inverse class-frequency weighting performs on par with or marginally exceeds the non-linear Random Forest ensemble (ROC-AUC 0.766 vs. 0.738; $F_1$-score 0.559 vs. 0.541). Logistic Regression provides direct parametric interpretability through exponentiated coefficients (adjusted odds ratios), confirming substantial independent associations for depression, coronary heart disease, and diabetes, alongside an educational protective gradient.
+
+### 5.4 Scope and Limitations
+As the 2023 CDC NHIS is a cross-sectional observational survey rather than a longitudinal clinical cohort, findings characterize statistical associations with general health status among cancer survivors rather than longitudinal disease progression or causal chemotherapy response.
 
 ---
 
-## 6. How to Run
+## 6. Execution and Verification
 
 ```bash
-# 1. Train models and generate summary plot (results_summary.png)
+# Model training, test-set evaluation, and figure generation (results_summary.png)
 python train_models.py
 
-# 2. Run the live presentation demonstration
+# Model inference on representative clinical patient profiles
 python demo.py
 ```

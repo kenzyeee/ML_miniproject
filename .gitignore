@@ -11,4 +11,5 @@ __pycache__/
 Thumbs.db
 
 # Public-use source data and generated modeling cohort
-/data/*.csv
+data/
+

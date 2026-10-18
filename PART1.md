@@ -61,6 +61,26 @@ Feature nonresponse is retained as missing rather than dropping whole rows. Coun
 | `DEPEV_A` | 5 |
 | `ASEV_A` | 2 |
 
+## Exploratory outcome patterns
+
+I added a reproducible exploratory step in `explore_cohort.py`. Run `python explore_cohort.py` after preparing the cohort. It prints outcome rates by age band and sex code, crude comparisons for six reported conditions, and candidate-feature missingness. These checks make Part 1 an analysis deliverable in its own right and give Part 2 concrete patterns to investigate.
+
+Fair/poor health was reported by 21.8% of respondents aged 18–49 (78/357), 27.8% aged 50–64 (233/838), 26.1% aged 65–74 (309/1,183), and 28.6% aged 75+ (393/1,375). The age measure is top-coded at 85, so the oldest group combines respondents aged 75 and over. By sex code, the sample rates were 27.9% for code 1 (450/1,615) and 26.3% for code 2 (565/2,145).
+
+The largest crude differences among the six condition flags were for diabetes (48.5% fair/poor among respondents reporting diabetes versus 22.5% among those reporting no diabetes), coronary heart disease (45.4% versus 23.9%), and depression (44.8% versus 22.0%). These are **unweighted, unadjusted sample comparisons**: they do not establish cause, independent effects, or prediction quality. Comorbidities, age, and other characteristics overlap, and subgroup rates can reflect confounding. Use these patterns to motivate model checks, not to claim clinical findings. The maximum missingness among the selected predictors is 1.68% for BMI category (63/3,760); all other predictors have at most 12 missing values.
+
+## Part 1 completed work and practical deliverables
+
+Part 1 now covers the dataset and research-question audit, construction of the analytic cohort and binary target, codebook-based feature cleaning, exploratory subgroup analysis, and a reproducible handoff. The files produced are:
+
+1. `data/adult23.csv` — local CDC source file (kept out of Git).
+2. `prepare_data.py` — checks required columns, filters and labels the cohort, recodes documented nonresponse, and writes the modeling CSV.
+3. `data/cancer_health_modeling.csv` — modeling-ready table with the target, candidate predictors, and separately named survey metadata (kept out of Git).
+4. `explore_cohort.py` — regenerates the descriptive subgroup and missingness summaries above.
+5. `PART1.md` — paper-method summary, dataset limitations, exploratory results, and Part 2 instructions.
+
+Before Part 2 treats the target as final, the team still needs the TA to confirm that the cross-sectional NHIS proxy is acceptable for assigned Problem 8. Part 2 can then concentrate on leakage-safe modeling and evaluation rather than redoing dataset discovery and cohort definition.
+
 ## Handoff to Part 2
 
 1. Confirm the proxy target with the TA and state the cross-sectional limitation in the report.
@@ -73,5 +93,6 @@ Feature nonresponse is retained as missing rather than dropping whole rows. Coun
 
 - Install the dependency listed in `requirements.txt`.
 - From this directory run `python prepare_data.py`.
+- Then run `python explore_cohort.py` to regenerate the unweighted descriptive summaries.
 - Raw and processed data are intentionally excluded from Git; each teammate needs to download the CDC raw CSV using the source link in [CDC 2023 NHIS documentation](https://www.cdc.gov/nchs/nhis/documentation/2023-nhis.html) before running the script.
 

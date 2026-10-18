@@ -15,6 +15,7 @@ The NHIS file has 29,522 adults; 3,762 reported a prior cancer diagnosis, and 3,
 - `data/adult23.csv` — downloaded CDC source file (ignored by Git)
 - `data/cancer_health_modeling.csv` — prepared cohort (ignored by Git)
 - `prepare_data.py` — reproducible preparation script
+- `explore_cohort.py` — reproducible Part 1 subgroup and missingness summaries
 - `PART1.md` — exploration, paper-method summary, and Part 2 handoff
 - `requirements.txt` — Python dependency
 
@@ -25,6 +26,7 @@ Download the Sample Adult CSV from the [CDC 2023 NHIS documentation page](https:
 ```powershell
 python -m pip install -r requirements.txt
 python prepare_data.py
+python explore_cohort.py
 ```
 
 The script creates `data/cancer_health_modeling.csv`. The original and prepared CSVs are excluded from Git; each teammate needs the source file locally to regenerate the cohort.

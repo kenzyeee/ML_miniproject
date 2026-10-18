@@ -23,7 +23,7 @@ These are unweighted counts, not population estimates. The positive class is lar
 
 ## Prepared files
 
-Run `python src/prepare_data.py` from the project root. It reads the original CSV using full-file type inference, subsets `CANEV_A=1`, excludes the two records with nonresponse `PHSTAT_A`, creates `poor_health` (1 for codes 4-5; 0 for codes 1-3), and maps documented feature nonresponse codes to missing values. It writes `data/processed/cancer_health_modeling.csv`, which is excluded from Git and reproducible from the raw download.
+Run `python prepare_data.py` from the project root. It reads the original CSV using full-file type inference, subsets `CANEV_A=1`, excludes the two records with nonresponse `PHSTAT_A`, creates `poor_health` (1 for codes 4-5; 0 for codes 1-3), and maps documented feature nonresponse codes to missing values. It writes `data/cancer_health_modeling.csv`, which is excluded from Git and reproducible from the raw download.
 
 The prepared file has these candidate predictors:
 
@@ -64,7 +64,7 @@ Feature nonresponse is retained as missing rather than dropping whole rows. Coun
 ## Handoff to Part 2
 
 1. Confirm the proxy target with the TA and state the cross-sectional limitation in the report.
-2. Start from `data/processed/cancer_health_modeling.csv`; keep the three survey metadata columns out of `X` unless implementing survey-aware training/evaluation.
+2. Start from `data/cancer_health_modeling.csv`; keep the three survey metadata columns out of `X` unless implementing survey-aware training/evaluation.
 3. Use a stratified train/test split or stratified cross-validation. Fit imputers, encoders, scaling, feature selection, and tuning inside training folds only.
 4. Compare a majority-class baseline and a simple regularized logistic regression before a small number of more complex models. Do not optimize on the test set.
 5. Report confusion matrix and class-aware metrics. Describe findings as associations/classification in this sample, not clinical advice or chemotherapy effects.
@@ -72,5 +72,6 @@ Feature nonresponse is retained as missing rather than dropping whole rows. Coun
 ## Reproduction
 
 - Install the dependency listed in `requirements.txt`.
-- From this directory run `python src/prepare_data.py`.
-- Raw and processed data are intentionally excluded from Git; each teammate needs to download the CDC raw CSV using the source link in [`data/README.md`](../data/README.md) before running the script.
+- From this directory run `python prepare_data.py`.
+- Raw and processed data are intentionally excluded from Git; each teammate needs to download the CDC raw CSV using the source link in [CDC 2023 NHIS documentation](https://www.cdc.gov/nchs/nhis/documentation/2023-nhis.html) before running the script.
+

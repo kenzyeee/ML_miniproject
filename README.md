@@ -1,50 +1,38 @@
-# Machine Learning Mini-Project
+# Cancer health mini-project
 
-## Project details
+**Team:** Aditya Raj (PES2UG24CS033) and Aditya Kumar (PES2UG24CS032), Batch 30  
+**Assigned problem serial:** 8  
+**Reference paper:** [Ostberg & Peterson, predicting health outcomes during chemotherapy](https://cs229.stanford.edu/proj2020spr/report/Ostberg_Peterson.pdf)
 
-- Course: UE24CS352A — Machine Learning
-- Team: Aditya Raj (PES2UG24CS033) and Aditya Kumar (PES2UG24CS032), Batch 30
-- Assigned problem serial number: **8**
-- Reference paper: [Predicting a Decline in Patient Reported Outcomes for Cancer Patients on Chemotherapy](https://cs229.stanford.edu/proj2020spr/report/Ostberg_Peterson.pdf)
-- Public dataset: 2023 CDC National Health Interview Survey (NHIS), Sample Adult
-- Proposed proxy task: classify fair/poor self-rated general health among adults who report ever having cancer
+## Project status
 
-## Scope caveat
+Part 1 prepared a public-data proxy task: classify fair/poor self-rated health among adults who report ever having cancer, using the 2023 CDC NHIS Sample Adult survey. The source paper predicts PROMIS physical-health decline during chemotherapy. NHIS has no chemotherapy exposure or before/after measures, so this is a substantial reframing and needs TA approval. Do not describe it as predicting chemotherapy effects or health decline.
 
-The reference paper predicts poor or declining PROMIS Global Physical Health (GPH) during chemotherapy. NHIS is cross-sectional and contains neither chemotherapy exposure nor before/after health scores. It cannot reproduce that task. The current proxy target is a substantial change in scope and still needs the TA's approval. Do not describe this as chemotherapy outcome or decline prediction.
+The NHIS file has 29,522 adults; 3,762 reported a prior cancer diagnosis, and 3,760 had a valid self-rated health response. In the analytic cohort, 1,015 (27.0%) reported fair/poor health and 2,745 (73.0%) good-or-better health. These are unweighted counts.
 
-## Part 1 status
+## Simple file layout
 
-Part 1 established the proxy target, checked the CDC codebook, explored the outcome distribution, and created a reusable cohort-preparation script. The source file has 29,522 adults; 3,762 reported a prior cancer diagnosis; 3,760 of those have a valid general-health response. In this analytic cohort, 1,015 (27.0%) report fair/poor health and 2,745 (73.0%) report good/very good/excellent health. These are unweighted sample counts.
+- `data/adult23.csv` — downloaded CDC source file (ignored by Git)
+- `data/cancer_health_modeling.csv` — prepared cohort (ignored by Git)
+- `prepare_data.py` — reproducible preparation script
+- `PART1.md` — exploration, paper-method summary, and Part 2 handoff
+- `requirements.txt` — Python dependency
 
-See [`reports/part-1-data-exploration.md`](reports/part-1-data-exploration.md) for the findings, variable notes, source-paper methodology, and teammate handoff. See [`reports/step-1-dataset-and-scope.md`](reports/step-1-dataset-and-scope.md) for the initial setup note.
+## Setup and prepare data
 
-## Data and setup
-
-The original CDC download and extracted CSV belong in `data/raw/`; raw and processed data are excluded from Git. Download the Sample Adult CSV ZIP from the [CDC 2023 NHIS documentation page](https://www.cdc.gov/nchs/nhis/documentation/2023-nhis.html) and extract it so `data/raw/adult23csv/adult23.csv` exists. The CDC `readme.txt` is also included in the archive.
-
-From the project root, install the dependency and prepare the modeling cohort:
+Download the Sample Adult CSV from the [CDC 2023 NHIS documentation page](https://www.cdc.gov/nchs/nhis/documentation/2023-nhis.html) and save it as `data/adult23.csv`. Then run from this folder:
 
 ```powershell
 python -m pip install -r requirements.txt
-python src/prepare_data.py
+python prepare_data.py
 ```
 
-The script creates `data/processed/cancer_health_modeling.csv`. It contains selected candidate predictors, `poor_health` (1=fair/poor, 0=good or better), and survey metadata. Keep `survey_weight`, `survey_stratum`, and `survey_psu` out of the predictive feature matrix unless implementing survey-aware modeling. The original outcome column and cancer cohort flag are excluded from the prepared file to prevent direct leakage.
+The script creates `data/cancer_health_modeling.csv`. The original and prepared CSVs are excluded from Git; each teammate needs the source file locally to regenerate the cohort.
 
-## Handoff: Part 2
+## Part 2 handoff
 
-1. Confirm the proxy target with the TA before finalizing the project framing.
-2. Use the prepared cohort; perform stratified train/test splitting or stratified cross-validation.
-3. Fit imputation, encoding, scaling, and tuning within training folds only.
-4. Establish a majority-class and regularized logistic-regression baseline, then compare a small number of models.
-5. Report class-aware metrics (for example, balanced accuracy, precision/recall or F1, ROC-AUC, and PR-AUC), not accuracy alone.
-6. Keep test data out of model selection, and describe findings as sample classification results rather than clinical advice or chemotherapy effects.
+Confirm the proxy question with the TA, then use stratified evaluation and training-fold-only preprocessing. Compare a majority-class baseline and regularized logistic regression before trying a small number of other models. Report class-aware metrics, and keep `survey_weight`, `survey_stratum`, and `survey_psu` out of ordinary predictive features unless implementing survey-aware analysis. See [PART1.md](PART1.md).
 
 ## Assignment deliverables
 
-- Private GitHub repository shared with faculty and assigned TAs, including setup/run instructions.
-- PDF summary describing the problem, dataset, approach, implementation, and conclusions. The supplied assignment labels it “One-Page Write-up” but describes a two-page summary; confirm the expected length.
-- Presentation and live code demonstration at review.
-
-The dates supplied in the assignment (October 5-10, 2026) have passed; check with course staff for updated submission and review arrangements.
+Private GitHub repository shared with faculty and assigned TAs; a PDF summary of the problem, data, approach, implementation, and conclusions; and a presentation with live code demonstration. The assignment has passed dates listed as October 5–10, 2026, so check course staff for updated arrangements and expected write-up length.

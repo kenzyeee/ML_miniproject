@@ -5,13 +5,10 @@ __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
 
-# Local configuration and generated artifacts
+# Local configuration
 .env
 .DS_Store
 Thumbs.db
 
-# Dataset files: add only if permitted by the data source and course rules
-data/raw/*
-data/processed/*
-!data/raw/.gitkeep
-!data/processed/.gitkeep
+# Public-use source data and generated modeling cohort
+/data/*.csv

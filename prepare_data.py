@@ -1,16 +1,16 @@
 """Build the Part 1 cancer-history cohort and provisional binary target.
 
-Input:  data/raw/adult23csv/adult23.csv
-Output: data/processed/cancer_health_modeling.csv (ignored by Git)
+Input:  data/adult23.csv
+Output: data/cancer_health_modeling.csv (ignored by Git)
 
 This is a cross-sectional general-health proxy task, not chemotherapy outcome prediction.
 """
 from pathlib import Path
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[1]
-RAW_FILE = ROOT / "data" / "raw" / "adult23csv" / "adult23.csv"
-OUTPUT_FILE = ROOT / "data" / "processed" / "cancer_health_modeling.csv"
+ROOT = Path(__file__).resolve().parent
+RAW_FILE = ROOT / "data" / "adult23.csv"
+OUTPUT_FILE = ROOT / "data" / "cancer_health_modeling.csv"
 
 # Candidate predictors for the teammate to consider. Preserve survey response codes
 # and category values from the CDC codebook; only convert documented nonresponse
@@ -90,3 +90,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
